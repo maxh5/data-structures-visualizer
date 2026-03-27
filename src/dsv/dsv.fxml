@@ -3,13 +3,31 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.Controller">
-   <children>
-      <Label layoutX="198.0" layoutY="74.0" prefHeight="17.0" prefWidth="178.0" text="Max is awesome" />
-      <TextField layoutX="151.0" layoutY="134.0" prefHeight="72.0" prefWidth="178.0" promptText="name someone cooler" />
-      <Button layoutX="342.0" layoutY="158.0" mnemonicParsing="false" onAction="#onClick" text="ok" />
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.Controller">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <TextField fx:id="valueField" promptText="Value:" />
+            <Button mnemonicParsing="false" onAction="#push" text="Push" />
+            <Button mnemonicParsing="false" onAction="#pop" text="Pop" />
+            <Button mnemonicParsing="false" onAction="#peek" text="Peek" />
+            <Button mnemonicParsing="false" onAction="#clear" text="Clear" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="stackContainer" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
+         </children>
+      </StackPane>
+   </center>
+   <bottom>
+      <Label fx:id="valueLabel" text="Stack" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

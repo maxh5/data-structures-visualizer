@@ -13,7 +13,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("dsv.fxml"));
         primaryStage.setTitle("Data Structures Visualizer");
-        primaryStage.setScene(new Scene(root, 1000, 500));
+        primaryStage.setScene(new Scene(root));
 
         primaryStage.show();
     }
