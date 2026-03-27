@@ -1,4 +1,4 @@
-package dsv;
+package dsv.stack;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 
 import java.util.Stack;
 
-public class Controller {
+public class StackController {
 
     private final Stack<Integer> stack = new Stack<>();
 
@@ -48,14 +48,14 @@ public class Controller {
         }
 
         int removed = stack.pop();
-        stackContainer.getChildren().remove(stackContainer.getChildren().size() - 1);
+        stackContainer.getChildren().remove(0);
         valueLabel.setText("Value popped: " + removed);
     }
 
     @FXML
     void push(ActionEvent event) {
         String input = valueField.getText().trim();
-
+ 
         if (input.isEmpty()) {
             valueLabel.setText("Please enter a value.");
             return;
@@ -63,7 +63,7 @@ public class Controller {
         try {
             int value = Integer.parseInt(input);
             stack.push(value);
-            stackContainer.getChildren().add(createStackItem(value));
+            stackContainer.getChildren().addFirst(createStackItem(value));
             valueField.clear();
             valueLabel.setText("Value pushed: " + value);
         } catch (NumberFormatException e) {

@@ -11,7 +11,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("dsv.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("main/main-view.fxml"));
         primaryStage.setTitle("Data Structures Visualizer");
         primaryStage.setScene(new Scene(root));
 

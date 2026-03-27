@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.main.MainController">
+   <left>
+      <VBox fx:id="menuSidebar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Data Structure:" />
+            <Button mnemonicParsing="false" onAction="#showStack" text="Stack" />
+            <Button mnemonicParsing="false" text="Queue" />
+            <Button mnemonicParsing="false" text="Tree" />
+            <Button mnemonicParsing="false" text="Array" />
+            <Button mnemonicParsing="false" text="Linked List" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <Button mnemonicParsing="false" onAction="#toggleMenu" text="Menu" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>
