@@ -13,7 +13,7 @@
          <children>
             <Label text="Data Structure:" />
             <Button mnemonicParsing="false" onAction="#showStack" text="Stack" />
-            <Button mnemonicParsing="false" text="Queue" />
+            <Button mnemonicParsing="false" onAction="#showQueue" text="Queue" />
             <Button mnemonicParsing="false" text="Tree" />
             <Button mnemonicParsing="false" text="Array" />
             <Button mnemonicParsing="false" text="Linked List" />

@@ -41,4 +41,12 @@ public class MainController
         rootPane.setCenter(stackView);
     }
 
+    @FXML
+    void showQueue(ActionEvent event) throws IOException {
+        Parent queueView = FXMLLoader.load(
+                getClass().getResource("../queue/queue-view.fxml")
+        );
+
+        rootPane.setCenter(queueView);
+    }
 }
