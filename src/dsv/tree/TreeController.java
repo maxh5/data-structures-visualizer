@@ -1,7 +1,5 @@
 package dsv.tree;
 
-import javax.swing.tree.TreeNode;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

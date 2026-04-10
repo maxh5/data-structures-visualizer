@@ -12,7 +12,7 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="queueContainer" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+            <HBox fx:id="queueContainer" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" />
          </children>
       </StackPane>
    </center>

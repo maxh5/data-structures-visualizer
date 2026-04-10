@@ -40,7 +40,7 @@ public class QueueController {
         }
 
         int removed = queue.poll();
-        queueContainer.getChildren().remove(0);
+        queueContainer.getChildren().remove(queueContainer.getChildren().size()-1);
         valueLabel.setText("Value dequeued: " + removed);
     }
 
@@ -56,7 +56,7 @@ public class QueueController {
         try {
             int value = Integer.parseInt(input);
             queue.add(value);
-            queueContainer.getChildren().add(createQueueItem(value));
+            queueContainer.getChildren().add(0, createQueueItem(value));
             valueField.clear();
             valueLabel.setText("Value enqueued: " + value);
         } catch (NumberFormatException e) {
