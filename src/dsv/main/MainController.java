@@ -49,4 +49,13 @@ public class MainController
 
         rootPane.setCenter(queueView);
     }
+
+    @FXML
+    void showTree(ActionEvent event) throws IOException {
+        Parent treeView = FXMLLoader.load(
+                getClass().getResource("../tree/tree-view.fxml")
+        );
+
+        rootPane.setCenter(treeView);
+    }
 }
