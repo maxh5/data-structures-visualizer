@@ -58,4 +58,31 @@ public class MainController
 
         rootPane.setCenter(treeView);
     }
+
+    @FXML
+    void showSet(ActionEvent event) throws IOException {
+        Parent setView = FXMLLoader.load(
+                getClass().getResource("../set/set-view.fxml")
+        );
+
+        rootPane.setCenter(setView);
+    }
+
+    @FXML
+    void showList(ActionEvent event) throws IOException {
+        Parent listView = FXMLLoader.load(
+                getClass().getResource("../list/list-view.fxml")
+        );
+
+        rootPane.setCenter(listView);
+    }
+
+    @FXML
+    void showMap(ActionEvent event) throws IOException {
+        Parent mapView = FXMLLoader.load(
+                getClass().getResource("../map/map-view.fxml")
+        );
+
+        rootPane.setCenter(mapView);
+    }
 }
