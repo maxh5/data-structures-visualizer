@@ -15,7 +15,8 @@
             <Button mnemonicParsing="false" onAction="#showQueue" text="Queue" />
             <Button mnemonicParsing="false" onAction="#showTree" text="Tree" />
             <Button mnemonicParsing="false" onAction="#showSet" text="Set" />
-            <Button mnemonicParsing="false" onAction="#showList" text="List" />
+            <Button mnemonicParsing="false" onAction="#showArrayList" text="Array List" />
+            <Button mnemonicParsing="false" onAction="#showLinkedList" text="Linked List" />
             <Button mnemonicParsing="false" onAction="#showMap" text="Map" />
          </children>
          <BorderPane.margin>

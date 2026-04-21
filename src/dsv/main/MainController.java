@@ -21,7 +21,7 @@ public class MainController
     private BorderPane rootPane;
 
     @FXML
-    void toggleMenu() {
+    public void toggleMenu() {
         if (isOpen) {
             menuSidebar.setPrefWidth(0);
             menuSidebar.setVisible(false);
@@ -33,56 +33,93 @@ public class MainController
     }
 
     @FXML
-    void showStack(ActionEvent event) throws IOException {
-        Parent stackView = FXMLLoader.load(
-                getClass().getResource("../stack/stack-view.fxml")
-        );
+    public void showStack(ActionEvent event) {
+        try {
+            Parent stackView = FXMLLoader.load(
+                    getClass().getResource("../stack/stack-view.fxml")
+            );
 
-        rootPane.setCenter(stackView);
+            rootPane.setCenter(stackView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void showQueue(ActionEvent event) throws IOException {
-        Parent queueView = FXMLLoader.load(
-                getClass().getResource("../queue/queue-view.fxml")
-        );
+    public void showQueue(ActionEvent event) {
+        try {
+            Parent queueView = FXMLLoader.load(
+                    getClass().getResource("../queue/queue-view.fxml")
+            );
 
-        rootPane.setCenter(queueView);
+            rootPane.setCenter(queueView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void showTree(ActionEvent event) throws IOException {
-        Parent treeView = FXMLLoader.load(
-                getClass().getResource("../tree/tree-view.fxml")
-        );
+    public void showTree(ActionEvent event) {
+        try {
+            Parent treeView = FXMLLoader.load(
+                    getClass().getResource("../tree/tree-view.fxml")
+            );
 
-        rootPane.setCenter(treeView);
+            rootPane.setCenter(treeView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void showSet(ActionEvent event) throws IOException {
-        Parent setView = FXMLLoader.load(
-                getClass().getResource("../set/set-view.fxml")
-        );
+    public void showSet(ActionEvent event) {
+        try {
+            Parent setView = FXMLLoader.load(
+                    getClass().getResource("../set/set-view.fxml")
+            );
 
-        rootPane.setCenter(setView);
+            rootPane.setCenter(setView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void showList(ActionEvent event) throws IOException {
-        Parent listView = FXMLLoader.load(
-                getClass().getResource("../list/list-view.fxml")
-        );
+    public void showArrayList(ActionEvent event) {
+        try {
+            Parent arrayListView = FXMLLoader.load(
+                    getClass().getResource("../arrayList/arrayList-view.fxml")
+            );
 
-        rootPane.setCenter(listView);
+            rootPane.setCenter(arrayListView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void showMap(ActionEvent event) throws IOException {
-        Parent mapView = FXMLLoader.load(
-                getClass().getResource("../map/map-view.fxml")
-        );
+    public void showLinkedList(ActionEvent event) {
+        try {
+            Parent linkedListView = FXMLLoader.load(
+                    getClass().getResource("../linkedList/linkedList-view.fxml")
+            );
 
-        rootPane.setCenter(mapView);
+            rootPane.setCenter(linkedListView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void showMap(ActionEvent event) {
+        try {
+            Parent mapView = FXMLLoader.load(
+                    getClass().getResource("../map/map-view.fxml")
+            );
+
+            rootPane.setCenter(mapView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
