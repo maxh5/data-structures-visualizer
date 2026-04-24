@@ -8,23 +8,25 @@
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.main.MainController">
    <left>
-      <VBox fx:id="menuSidebar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-padding: 0 15 0 0;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Data Structure:" />
-            <Button mnemonicParsing="false" onAction="#showStack" text="Stack" />
-            <Button mnemonicParsing="false" onAction="#showQueue" text="Queue" />
-            <Button mnemonicParsing="false" onAction="#showTree" text="Tree" />
-            <Button mnemonicParsing="false" onAction="#showSet" text="Set" />
-            <Button mnemonicParsing="false" onAction="#showArrayList" text="Array List" />
-            <Button mnemonicParsing="false" onAction="#showLinkedList" text="Linked List" />
-            <Button mnemonicParsing="false" onAction="#showMap" text="Map" />
+            <Button mnemonicParsing="false" onAction="#toggleMenu" text="Menu" style="-fx-min-width: 100;" />
+            <VBox fx:id="menuSidebar" alignment="CENTER" prefHeight="200.0" prefWidth="140.0" spacing="15.0" style="-fx-border-color: #cccccc; -fx-border-width: 1; -fx-background-color: #f5f5f5; -fx-padding: 10 15 10 10;">
+               <children>
+                  <Label text="Data Structure:" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                  <Button mnemonicParsing="false" onAction="#showStack" text="Stack" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showQueue" text="Queue" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showTree" text="Tree" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showSet" text="Set" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showArrayList" text="Array List" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showLinkedList" text="Linked List" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showMap" text="Map" style="-fx-min-width: 100;" />
+               </children>
+            </VBox>
          </children>
          <BorderPane.margin>
-            <Insets />
+            <Insets top="10" left="10" />
          </BorderPane.margin>
       </VBox>
    </left>
-   <right>
-      <Button mnemonicParsing="false" onAction="#toggleMenu" text="Menu" BorderPane.alignment="CENTER" />
-   </right>
 </BorderPane>

@@ -10,6 +10,7 @@
             "request": "launch",
             "mainClass": "dsv.App",
             "projectName": "data-structures-visualizer_4e7d1a2c",
+            "preLaunchTask": "Build Java Project",
             "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-25.0.2/lib\" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics"
         },
         {
@@ -18,6 +19,7 @@
             "request": "launch",
             "mainClass": "dsv.App",
             "projectName": "data-structures-visualizer_4e7d1a2c",
+            "preLaunchTask": "Build Java Project",
             "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-25.0.2/lib\" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics"
         },
         {
@@ -25,6 +27,7 @@
             "name": "Launch App",
             "request": "launch",
             "mainClass": "dsv.App",
+            "preLaunchTask": "Build Java Project",
             "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-25.0.2/lib\" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics"
         }
     ]

@@ -1,5 +1,6 @@
 package dsv.stack;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.Stack;
 
@@ -48,7 +50,15 @@ public class StackController {
         }
 
         int removed = stack.pop();
-        stackContainer.getChildren().remove(0);
+        StackPane item = (StackPane) stackContainer.getChildren().get(0);
+
+        // Fade out animation
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), item);
+        fadeOut.setFromValue(1);
+        fadeOut.setToValue(0);
+        fadeOut.setOnFinished(e -> stackContainer.getChildren().remove(item));
+        fadeOut.play();
+
         valueLabel.setText("Value popped: " + removed);
     }
 
@@ -63,8 +73,17 @@ public class StackController {
         try {
             int value = Integer.parseInt(input);
             stack.push(value);
-            stackContainer.getChildren().addFirst(createStackItem(value));
+            StackPane item = createStackItem(value);
+            item.setOpacity(0);
+            stackContainer.getChildren().addFirst(item);
             valueField.clear();
+
+            // Fade in animation
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), item);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.play();
+
             valueLabel.setText("Value pushed: " + value);
         } catch (NumberFormatException e) {
             valueLabel.setText("Please enter an integer.");

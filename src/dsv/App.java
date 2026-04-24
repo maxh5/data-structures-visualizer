@@ -20,7 +20,9 @@ public class App extends Application {
             primaryStage.getIcons().add(new Image(iconResource.toExternalForm()));
         }
         
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root, 1024, 768));
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
 
         primaryStage.show();
     }
