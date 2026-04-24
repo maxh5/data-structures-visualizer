@@ -14,7 +14,7 @@
       <SplitPane dividerPositions="0.10101010101010101" orientation="VERTICAL" prefHeight="70.0" prefWidth="160.0" BorderPane.alignment="TOP_CENTER">
         <items>
             <Label fx:id="valueLabel" text="Map" />
-            <HBox alignment="CENTER" maxHeight="50.0" prefHeight="50.0" prefWidth="698.0" spacing="15.0">
+            <HBox fx:id="controlBox" alignment="CENTER" maxHeight="50.0" prefHeight="50.0" prefWidth="698.0" spacing="15.0">
                <children>
                   <TextField fx:id="keyField" promptText="Key (String)" />
                   <TextField fx:id="valueField" promptText="Value (Int)" />
@@ -32,14 +32,14 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane fx:id="indexPane0" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 0" /></StackPane>
+                  <StackPane fx:id="indexPane1" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 1" /></StackPane>
+                  <StackPane fx:id="indexPane2" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 2" /></StackPane>
+                  <StackPane fx:id="indexPane3" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 3" /></StackPane>
+                  <StackPane fx:id="indexPane4" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 4" /></StackPane>
+                  <StackPane fx:id="indexPane5" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 5" /></StackPane>
+                  <StackPane fx:id="indexPane6" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 6" /></StackPane>
+                  <StackPane fx:id="indexPane7" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0"><Label text="Bucket 7" /></StackPane>
                </children>
             </VBox>
             <VBox prefHeight="430.0" prefWidth="599.0">

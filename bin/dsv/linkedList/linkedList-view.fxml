@@ -8,18 +8,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.linkedList.LinkedListController">
    <top>
       <SplitPane dividerPositions="0.10101010101010101" orientation="VERTICAL" prefHeight="70.0" prefWidth="160.0" BorderPane.alignment="TOP_CENTER">
         <items>
             <Label fx:id="valueLabel" text="LinkedList" />
             <HBox alignment="CENTER" maxHeight="50.0" prefHeight="50.0" prefWidth="698.0" spacing="15.0">
                <children>
-                  <TextField fx:id="valueField" promptText="Value:" />
-                  <Button mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Remove" />
-                  <Button mnemonicParsing="false" text="Get" />
-                  <Button mnemonicParsing="false" text="Clear" />
+                  <TextField fx:id="valueField" promptText="Value:" prefWidth="100.0" />
+                  <TextField fx:id="indexField" promptText="Index:" prefWidth="80.0" />
+                  <Button mnemonicParsing="false" onAction="#add" text="Add (Append)" />
+                  <Button mnemonicParsing="false" onAction="#insert" text="Insert" />
+                  <Button mnemonicParsing="false" onAction="#remove" text="Remove" />
+                  <Button mnemonicParsing="false" onAction="#search" text="Search" />
+                  <Button mnemonicParsing="false" onAction="#clear" text="Clear" />
                </children>
             </HBox>
         </items>
@@ -28,7 +30,7 @@
    <center>
       <StackPane BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity">
          <children>
-            <HBox fx:id="linkedListContainer" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" />
+            <HBox fx:id="linkedListContainer" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-padding: 30;" />
          </children>
       </StackPane>
    </center>

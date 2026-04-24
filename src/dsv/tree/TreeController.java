@@ -24,6 +24,7 @@ public class TreeController {
     // --------------------
 
     private Node root;
+    private Circle highlightedCircle;
 
     @FXML
     private Pane treePane;
@@ -36,6 +37,7 @@ public class TreeController {
 
     @FXML
     void clear(ActionEvent event) {
+        resetHighlight();
         root = null;
         treePane.getChildren().clear();
         valueLabel.setText("Tree cleared.");
@@ -43,6 +45,7 @@ public class TreeController {
 
     @FXML
     void delete(ActionEvent event) {
+        resetHighlight();
         try {
             int value = Integer.parseInt(valueField.getText());
             root = delete(root, value);
@@ -56,6 +59,7 @@ public class TreeController {
 
     @FXML
     void insert(ActionEvent event) {
+        resetHighlight();
         try {
             int val = Integer.parseInt(valueField.getText());
             root = insert(root, val);
@@ -64,6 +68,48 @@ public class TreeController {
             valueField.clear();
         } catch (NumberFormatException e) {
             valueLabel.setText("Enter a valid integer.");
+        }
+    }
+
+    @FXML
+    void search(ActionEvent event) {
+        resetHighlight();
+        try {
+            int val = Integer.parseInt(valueField.getText());
+            if (find(root, val)) {
+                valueLabel.setText("Found: " + val);
+                
+                for (javafx.scene.Node n : treePane.getChildren()) {
+                    if (n instanceof StackPane) {
+                        StackPane sp = (StackPane) n;
+                        Text text = (Text) sp.getChildren().get(1);
+                        if (text.getText().equals(String.valueOf(val))) {
+                            Circle circle = (Circle) sp.getChildren().get(0);
+                            circle.setStyle("-fx-fill: yellow; -fx-stroke: black;");
+                            highlightedCircle = circle;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                valueLabel.setText("Value not found.");
+            }
+        } catch (NumberFormatException e) {
+            valueLabel.setText("Enter a valid integer.");
+        }
+    }
+
+    private boolean find(Node node, int val) {
+        if (node == null) return false;
+        if (node.val == val) return true;
+        if (val < node.val) return find(node.left, val);
+        return find(node.right, val);
+    }
+
+    private void resetHighlight() {
+        if (highlightedCircle != null) {
+            highlightedCircle.setStyle("-fx-fill: lightblue; -fx-stroke: black;");
+            highlightedCircle = null;
         }
     }
 

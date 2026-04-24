@@ -16,6 +16,7 @@ import java.util.Stack;
 public class StackController {
 
     private final Stack<Integer> stack = new Stack<>();
+    private Rectangle peekedRectangle;
 
     @FXML
     private VBox stackContainer;
@@ -28,6 +29,7 @@ public class StackController {
 
     @FXML
     void clear(ActionEvent event) {
+        resetPeekHighlight();
         stack.clear();
         stackContainer.getChildren().clear();
         valueLabel.setText("Stack cleared.");
@@ -35,15 +37,23 @@ public class StackController {
 
     @FXML
     void peek(ActionEvent event) {
+        resetPeekHighlight();
         if (stack.isEmpty()) {
             valueLabel.setText("Stack is empty. Cannot peek.");
             return;
         }
+
+        StackPane item = (StackPane) stackContainer.getChildren().get(0);
+        Rectangle rect = (Rectangle) item.getChildren().get(0);
+        rect.setStyle("-fx-fill: yellow; -fx-stroke: black;");
+        peekedRectangle = rect;
+
         valueLabel.setText("Top of stack: " + stack.peek());
     }
 
     @FXML
     void pop(ActionEvent event) {
+        resetPeekHighlight();
         if (stack.isEmpty()) {
             valueLabel.setText("Stack is empty. Cannot pop.");
             return;
@@ -64,6 +74,7 @@ public class StackController {
 
     @FXML
     void push(ActionEvent event) {
+        resetPeekHighlight();
         String input = valueField.getText().trim();
  
         if (input.isEmpty()) {
@@ -103,6 +114,13 @@ public class StackController {
         item.setMinSize(200, 100);
         item.setMaxSize(200, 100);
         return item;
+    }
+
+    private void resetPeekHighlight() {
+        if (peekedRectangle != null) {
+            peekedRectangle.setStyle("-fx-fill: lightblue; -fx-stroke: black;");
+            peekedRectangle = null;
+        }
     }
 
 }

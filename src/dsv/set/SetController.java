@@ -20,6 +20,7 @@ public class SetController {
 
     private final Set<Integer> set = new HashSet<>();
     private final Map<Integer, StackPane> nodeMap = new HashMap<>();
+    private Circle highlightedCircle;
 
     @FXML
     private Pane setPane;
@@ -32,6 +33,7 @@ public class SetController {
 
     @FXML
     void add(ActionEvent event) {
+        resetHighlight();
         String input = valueField.getText();
 
         try {
@@ -72,6 +74,7 @@ public class SetController {
 
     @FXML
     void remove(ActionEvent event) {
+        resetHighlight();
         String input = valueField.getText();
 
         try {
@@ -103,6 +106,7 @@ public class SetController {
 
     @FXML
     void search(ActionEvent event) {
+        resetHighlight();
         String input = valueField.getText();
 
         try {
@@ -116,7 +120,9 @@ public class SetController {
             StackPane node = nodeMap.get(value);
 
             // Highlight node
-            node.setStyle("-fx-border-color: red; -fx-border-width: 3;");
+            Circle circle = (Circle) node.getChildren().get(0);
+            circle.setFill(Color.YELLOW);
+            highlightedCircle = circle;
 
             valueLabel.setText("Found: " + value);
 
@@ -127,6 +133,7 @@ public class SetController {
 
     @FXML
     void clear(ActionEvent event) {
+        resetHighlight();
         set.clear();
         nodeMap.clear();
         setPane.getChildren().clear();
@@ -145,5 +152,12 @@ public class SetController {
         stack.getChildren().addAll(circle, label);
 
         return stack;
+    }
+
+    private void resetHighlight() {
+        if (highlightedCircle != null) {
+            highlightedCircle.setFill(Color.LIGHTBLUE);
+            highlightedCircle = null;
+        }
     }
 }

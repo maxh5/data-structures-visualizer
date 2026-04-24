@@ -19,6 +19,7 @@ import java.util.LinkedList;
 public class QueueController {
     
     private final Queue<Integer> queue = new LinkedList<>();
+    private Rectangle peekedRectangle;
 
     @FXML
     private HBox queueContainer;
@@ -31,6 +32,7 @@ public class QueueController {
 
     @FXML
     void clear(ActionEvent event) {
+        resetPeekHighlight();
         queue.clear();
         queueContainer.getChildren().clear();
         valueLabel.setText("Queue cleared.");
@@ -38,6 +40,7 @@ public class QueueController {
 
     @FXML
     void dequeue(ActionEvent event) {
+        resetPeekHighlight();
         if (queue.isEmpty()) {
             valueLabel.setText("Queue is empty. Cannot dequeue.");
             return;
@@ -83,6 +86,7 @@ public class QueueController {
 
     @FXML
     void enqueue(ActionEvent event) {
+        resetPeekHighlight();
         String input = valueField.getText().trim();
 
         if (input.isEmpty()) {
@@ -128,11 +132,26 @@ public class QueueController {
 
     @FXML
     void peek(ActionEvent event) {
+        resetPeekHighlight();
         if (queue.isEmpty()) {
             valueLabel.setText("Queue is empty. Cannot peek.");
             return;
         }
+
+        int lastIndex = queueContainer.getChildren().size() - 1;
+        StackPane item = (StackPane) queueContainer.getChildren().get(lastIndex);
+        Rectangle rect = (Rectangle) item.getChildren().get(0);
+        rect.setStyle("-fx-fill: yellow; -fx-stroke: black;");
+        peekedRectangle = rect;
+
         valueLabel.setText("Front of queue: " + queue.peek());
+    }
+
+    private void resetPeekHighlight() {
+        if (peekedRectangle != null) {
+            peekedRectangle.setStyle("-fx-fill: lightblue; -fx-stroke: black;");
+            peekedRectangle = null;
+        }
     }
 
 }

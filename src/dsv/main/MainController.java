@@ -12,25 +12,11 @@ import java.io.IOException;
 public class MainController
  {
 
-    private boolean isOpen = true;
-
     @FXML
     private VBox menuSidebar;
 
      @FXML
     private BorderPane rootPane;
-
-    @FXML
-    public void toggleMenu() {
-        if (isOpen) {
-            menuSidebar.setPrefWidth(0);
-            menuSidebar.setVisible(false);
-        } else {
-            menuSidebar.setPrefWidth(150);
-            menuSidebar.setVisible(true);
-        }
-        isOpen = !isOpen;
-    }
 
     @FXML
     public void showStack(ActionEvent event) {

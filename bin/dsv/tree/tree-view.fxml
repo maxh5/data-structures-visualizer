@@ -18,6 +18,7 @@
                   <TextField fx:id="valueField" promptText="Value:" />
                   <Button mnemonicParsing="false" onAction="#insert" text="Insert" />
                   <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
+                  <Button mnemonicParsing="false" onAction="#search" text="Search" />
                   <Button mnemonicParsing="false" onAction="#clear" text="Clear" />
                </children>
             </HBox>
