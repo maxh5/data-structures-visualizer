@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -13,6 +14,12 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main/main-view.fxml"));
         primaryStage.setTitle("Data Structures Visualizer");
+        
+        var iconResource = getClass().getResource("/dsv/resources/icon.png");
+        if (iconResource != null) {
+            primaryStage.getIcons().add(new Image(iconResource.toExternalForm()));
+        }
+        
         primaryStage.setScene(new Scene(root));
 
         primaryStage.show();

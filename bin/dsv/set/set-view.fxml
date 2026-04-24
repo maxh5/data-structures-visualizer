@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.set.SetController">
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.set.SetController">
    <top>
       <SplitPane dividerPositions="0.10101010101010101" orientation="VERTICAL" prefHeight="70.0" prefWidth="160.0" BorderPane.alignment="TOP_CENTER">
         <items>
@@ -26,6 +26,6 @@
       </SplitPane>
    </top>
    <center>
-      <Pane fx:id="setPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="setPane" BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity" />
    </center>
 </BorderPane>

@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.stack.StackController">
+<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.stack.StackController">
    <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity">
          <children>
-            <VBox fx:id="stackContainer" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
+            <VBox fx:id="stackContainer" alignment="BOTTOM_CENTER" spacing="5.0" />
          </children>
       </StackPane>
    </center>
