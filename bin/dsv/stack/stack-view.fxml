@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,9 +12,17 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.stack.StackController">
    <center>
-      <StackPane BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity">
+      <StackPane BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity" style="-fx-border-color: #cccccc; -fx-border-width: 1;">
          <children>
-            <VBox fx:id="stackContainer" alignment="BOTTOM_CENTER" spacing="5.0" />
+            <ScrollPane fx:id="stackScrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" vbarPolicy="AS_NEEDED" style="-fx-border-width: 0; -fx-border-color: transparent;">
+               <content>
+                  <StackPane fx:id="stackContentRoot" alignment="BOTTOM_CENTER" maxWidth="Infinity">
+                     <children>
+                        <VBox fx:id="stackContainer" alignment="BOTTOM_CENTER" fillWidth="true" maxHeight="-1.0" spacing="5.0" />
+                     </children>
+                  </StackPane>
+               </content>
+            </ScrollPane>
          </children>
       </StackPane>
    </center>

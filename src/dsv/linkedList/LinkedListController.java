@@ -40,7 +40,7 @@ public class LinkedListController {
     public void initialize() {
         // Start with empty list (just Null pointer)
         linkedListContainer.getChildren().add(createNullNode());
-        valueLabel.setText("LinkedList initialized.");
+        valueLabel.setText("LinkedList");
         PrimaryInputFocus.focusAndSelect(valueField);
     }
 

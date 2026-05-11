@@ -4,22 +4,23 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.main.MainController">
    <left>
-      <VBox alignment="CENTER" spacing="10.0" style="-fx-padding: 0 15 0 0;" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-padding: 0 10 0 0;" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="menuSidebar" alignment="CENTER" prefHeight="200.0" prefWidth="140.0" spacing="15.0" style="-fx-border-color: #cccccc; -fx-border-width: 1; -fx-background-color: #f5f5f5; -fx-padding: 10 15 10 10;">
+            <VBox fx:id="menuSidebar" alignment="CENTER" prefHeight="200.0" prefWidth="115.0" spacing="10.0" style="-fx-border-color: #cccccc; -fx-border-width: 1; -fx-background-color: #f5f5f5; -fx-padding: 8 10 8 8;">
                <children>
                   <Label text="Data Structure:" style="-fx-font-weight: bold; -fx-font-size: 12;" />
-                  <Button mnemonicParsing="false" onAction="#showStack" text="Stack" style="-fx-min-width: 100;" />
-                  <Button mnemonicParsing="false" onAction="#showQueue" text="Queue" style="-fx-min-width: 100;" />
-                  <Button mnemonicParsing="false" onAction="#showTree" text="Tree" style="-fx-min-width: 100;" />
-                  <Button mnemonicParsing="false" onAction="#showSet" text="Set" style="-fx-min-width: 100;" />
-                  <Button mnemonicParsing="false" onAction="#showArrayList" text="Array List" style="-fx-min-width: 100;" />
-                  <Button mnemonicParsing="false" onAction="#showLinkedList" text="Linked List" style="-fx-min-width: 100;" />
-                  <Button mnemonicParsing="false" onAction="#showMap" text="Map" style="-fx-min-width: 100;" />
+                  <Button mnemonicParsing="false" onAction="#showStack" text="Stack" style="-fx-min-width: 84;" />
+                  <Button mnemonicParsing="false" onAction="#showQueue" text="Queue" style="-fx-min-width: 84;" />
+                  <Button mnemonicParsing="false" onAction="#showTree" text="Tree" style="-fx-min-width: 84;" />
+                  <Button mnemonicParsing="false" onAction="#showSet" text="Set" style="-fx-min-width: 84;" />
+                  <Button mnemonicParsing="false" onAction="#showArrayList" text="Array List" style="-fx-min-width: 84;" />
+                  <Button mnemonicParsing="false" onAction="#showLinkedList" text="Linked List" style="-fx-min-width: 84;" />
+                  <Button mnemonicParsing="false" onAction="#showMap" text="Map" style="-fx-min-width: 84;" />
                </children>
             </VBox>
          </children>
@@ -28,4 +29,7 @@
          </BorderPane.margin>
       </VBox>
    </left>
+   <center>
+      <StackPane fx:id="structureHost" maxHeight="Infinity" maxWidth="Infinity" style="-fx-padding: 0 12 0 0; -fx-border-color: transparent #cccccc transparent transparent; -fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

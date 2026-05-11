@@ -6,8 +6,10 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -83,12 +85,13 @@ public class QueueController {
         allAnimations.setOnFinished(finishEvent -> {
             // Remove the item after animation completes
             queueContainer.getChildren().remove(removedItem);
-            
+
             // Reset translate transforms for remaining items
             for (int i = 0; i < queueContainer.getChildren().size(); i++) {
                 StackPane item = (StackPane) queueContainer.getChildren().get(i);
                 item.setTranslateX(0);
             }
+            updateHeadIndicator();
         });
         
         allAnimations.play();
@@ -125,6 +128,7 @@ public class QueueController {
 
                 valueField.clear();
                 valueLabel.setText("Value enqueued: " + value);
+                updateHeadIndicator();
             } catch (NumberFormatException e) {
                 valueLabel.setText("Please enter an integer.");
             }
@@ -141,11 +145,39 @@ public class QueueController {
 
         Text text = new Text(String.valueOf(value));
 
-        StackPane item = new StackPane(rect, text);
-        item.setPrefSize(120, 60);
-        item.setMinSize(120, 60);
-        item.setMaxSize(120, 60);
+        Label headMarker = new Label("\u2605");
+        headMarker.getStyleClass().add("queue-head-marker");
+        headMarker.setStyle("-fx-text-fill: #c9a227; -fx-font-size: 16px;");
+        headMarker.setMouseTransparent(true);
+        headMarker.setVisible(false);
+        headMarker.setManaged(false);
+        Tooltip.install(headMarker, new Tooltip("Head of queue (front) — next to dequeue"));
+
+        StackPane item = new StackPane(rect, text, headMarker);
+        StackPane.setAlignment(rect, Pos.CENTER);
+        StackPane.setAlignment(text, Pos.CENTER);
+        StackPane.setAlignment(headMarker, Pos.TOP_CENTER);
+        headMarker.setTranslateY(-6);
+
+        item.setPrefSize(120, 72);
+        item.setMinSize(120, 72);
+        item.setMaxSize(120, 72);
         return item;
+    }
+
+    /** Head (front) is the rightmost cell in this visualization. */
+    private void updateHeadIndicator() {
+        int n = queueContainer.getChildren().size();
+        for (int i = 0; i < n; i++) {
+            StackPane pane = (StackPane) queueContainer.getChildren().get(i);
+            Label marker = (Label) pane.lookup(".queue-head-marker");
+            if (marker == null) {
+                continue;
+            }
+            boolean isHead = (i == n - 1);
+            marker.setVisible(isHead);
+            marker.setManaged(isHead);
+        }
     }
 
     @FXML

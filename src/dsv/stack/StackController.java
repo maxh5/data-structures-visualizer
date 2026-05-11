@@ -2,9 +2,12 @@ package dsv.stack;
 
 import dsv.PrimaryInputFocus;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,6 +26,12 @@ public class StackController {
     private VBox stackContainer;
 
     @FXML
+    private ScrollPane stackScrollPane;
+
+    @FXML
+    private StackPane stackContentRoot;
+
+    @FXML
     private TextField valueField;
 
     @FXML
@@ -30,7 +39,28 @@ public class StackController {
 
     @FXML
     public void initialize() {
+        stackContentRoot.minHeightProperty().bind(
+                Bindings.createDoubleBinding(
+                        () -> {
+                            double viewportH = stackScrollPane.getViewportBounds().getHeight();
+                            double stackH = stackContainer.prefHeight(-1);
+                            if (viewportH <= 0) {
+                                return Math.max(stackH, stackContainer.getHeight());
+                            }
+                            return Math.max(viewportH, stackH);
+                        },
+                        stackScrollPane.viewportBoundsProperty(),
+                        stackContainer.heightProperty(),
+                        stackContainer.getChildren()));
         PrimaryInputFocus.focusAndSelect(valueField);
+    }
+
+    /**
+     * Pins the base of the stack (oldest block, bottom of the VBox) to the bottom of the viewport.
+     * Smaller vvalue scrolls the view toward the top of the pile (newer pancakes).
+     */
+    private void scrollToShowBase() {
+        Platform.runLater(() -> stackScrollPane.setVvalue(1.0));
     }
 
     @FXML
@@ -39,6 +69,7 @@ public class StackController {
             resetPeekHighlight();
             stack.clear();
             stackContainer.getChildren().clear();
+            scrollToShowBase();
             valueLabel.setText("Stack cleared.");
         } finally {
             PrimaryInputFocus.focusAndSelect(valueField);
@@ -81,7 +112,10 @@ public class StackController {
             FadeTransition fadeOut = new FadeTransition(Duration.millis(500), item);
             fadeOut.setFromValue(1);
             fadeOut.setToValue(0);
-            fadeOut.setOnFinished(e -> stackContainer.getChildren().remove(item));
+            fadeOut.setOnFinished(e -> {
+                stackContainer.getChildren().remove(item);
+                scrollToShowBase();
+            });
             fadeOut.play();
 
             valueLabel.setText("Value popped: " + removed);
@@ -105,6 +139,7 @@ public class StackController {
                 stack.push(value);
                 StackPane item = createStackItem(value);
                 item.setOpacity(0);
+                // VBox lays out first child at top, last at bottom: addFirst keeps newest on top, oldest at base.
                 stackContainer.getChildren().addFirst(item);
                 valueField.clear();
 
@@ -114,6 +149,7 @@ public class StackController {
                 fadeIn.setToValue(1);
                 fadeIn.play();
 
+                scrollToShowBase();
                 valueLabel.setText("Value pushed: " + value);
             } catch (NumberFormatException e) {
                 valueLabel.setText("Please enter an integer.");

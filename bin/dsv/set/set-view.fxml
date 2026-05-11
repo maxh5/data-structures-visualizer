@@ -26,6 +26,6 @@
       </SplitPane>
    </top>
    <center>
-      <Pane fx:id="setPane" BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity" />
+      <Pane fx:id="setPane" BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity" style="-fx-border-color: #cccccc; -fx-border-width: 1;" />
    </center>
 </BorderPane>

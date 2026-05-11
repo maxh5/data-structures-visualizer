@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -19,13 +20,20 @@ public class MainController
     private BorderPane rootPane;
 
     @FXML
+    private StackPane structureHost;
+
+    private void showInCenter(Parent view) {
+        structureHost.getChildren().setAll(view);
+    }
+
+    @FXML
     public void showStack(ActionEvent event) {
         try {
             Parent stackView = FXMLLoader.load(
                     getClass().getResource("../stack/stack-view.fxml")
             );
 
-            rootPane.setCenter(stackView);
+            showInCenter(stackView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,7 +46,7 @@ public class MainController
                     getClass().getResource("../queue/queue-view.fxml")
             );
 
-            rootPane.setCenter(queueView);
+            showInCenter(queueView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +59,7 @@ public class MainController
                     getClass().getResource("../tree/tree-view.fxml")
             );
 
-            rootPane.setCenter(treeView);
+            showInCenter(treeView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +72,7 @@ public class MainController
                     getClass().getResource("../set/set-view.fxml")
             );
 
-            rootPane.setCenter(setView);
+            showInCenter(setView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,7 +85,7 @@ public class MainController
                     getClass().getResource("../arrayList/arrayList-view.fxml")
             );
 
-            rootPane.setCenter(arrayListView);
+            showInCenter(arrayListView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +98,7 @@ public class MainController
                     getClass().getResource("../linkedList/linkedList-view.fxml")
             );
 
-            rootPane.setCenter(linkedListView);
+            showInCenter(linkedListView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,7 +111,7 @@ public class MainController
                     getClass().getResource("../map/map-view.fxml")
             );
 
-            rootPane.setCenter(mapView);
+            showInCenter(mapView);
         } catch (IOException e) {
             e.printStackTrace();
         }
