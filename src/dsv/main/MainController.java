@@ -8,7 +8,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 
 public class MainController
  {
@@ -113,6 +115,16 @@ public class MainController
 
             showInCenter(mapView);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openLinkedIn(ActionEvent event) {
+        try {
+            if (!Desktop.isDesktopSupported()) return;
+            Desktop.getDesktop().browse(new URI("https://linkedin.com/in/maxmholden/"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

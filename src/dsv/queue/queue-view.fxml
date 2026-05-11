@@ -13,9 +13,9 @@
    <center>
       <StackPane BorderPane.alignment="CENTER" maxWidth="Infinity" maxHeight="Infinity" style="-fx-border-color: #cccccc; -fx-border-width: 1;">
          <children>
-            <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" pannable="true" vbarPolicy="NEVER" style="-fx-border-width: 0; -fx-border-color: transparent;">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" vbarPolicy="NEVER" style="-fx-border-width: 0; -fx-border-color: transparent;">
                <content>
-                  <HBox fx:id="queueContainer" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" />
+                  <HBox fx:id="queueContainer" alignment="CENTER_RIGHT" maxHeight="Infinity" maxWidth="Infinity" prefHeight="100.0" />
                </content>
             </ScrollPane>
          </children>

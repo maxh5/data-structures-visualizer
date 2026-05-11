@@ -410,7 +410,7 @@ public class LinkedListController {
 
     private Text createNullNode() {
         Text nullNode = new Text("∅");
-        nullNode.setStyle("-fx-font-size: 30; -fx-font-weight: bold; -fx-fill: darkred;");
+        nullNode.setStyle("-fx-font-size: 30; -fx-font-weight: bold; -fx-fill: gray;");
         return nullNode;
     }
 

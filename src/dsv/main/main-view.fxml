@@ -3,15 +3,21 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dsv.main.MainController">
    <left>
-      <VBox alignment="CENTER" spacing="10.0" style="-fx-padding: 0 10 0 0;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" spacing="10.0" maxHeight="Infinity" style="-fx-padding: 0 10 0 0;" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="menuSidebar" alignment="CENTER" prefHeight="200.0" prefWidth="115.0" spacing="10.0" style="-fx-border-color: #cccccc; -fx-border-width: 1; -fx-background-color: #f5f5f5; -fx-padding: 8 10 8 8;">
+            <!-- Spacer + menu + spacer share height so menu sits ~midway; credit stays at bottom -->
+            <Region VBox.vgrow="ALWAYS" minHeight="0.0" />
+            <VBox fx:id="menuSidebar" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="115.0" spacing="10.0" style="-fx-border-color: #cccccc; -fx-border-width: 1; -fx-background-color: #f5f5f5; -fx-padding: 8 10 8 8;">
                <children>
                   <Label text="Data Structure:" style="-fx-font-weight: bold; -fx-font-size: 12;" />
                   <Button mnemonicParsing="false" onAction="#showStack" text="Stack" style="-fx-min-width: 84;" />
@@ -23,6 +29,26 @@
                   <Button mnemonicParsing="false" onAction="#showMap" text="Map" style="-fx-min-width: 84;" />
                </children>
             </VBox>
+
+            <!-- Spacer pushes attribution to bottom of left column -->
+            <Region VBox.vgrow="ALWAYS" minHeight="0.0" />
+
+            <!-- Attribution (under menu box, vertical, no padding/border) -->
+            <VBox alignment="CENTER_LEFT" spacing="2.0" prefWidth="115.0">
+               <VBox.margin>
+                  <Insets bottom="6" />
+               </VBox.margin>
+               <children>
+                  <Label text="Created by&#10;Max Holden" wrapText="true" style="-fx-font-size: 15.0; -fx-text-fill: #333333; -fx-font-weight: bold;" />
+                  <Hyperlink text="linkedin.com/in/&#10;maxmholden/" wrapText="true" onAction="#openLinkedIn"
+                             style="-fx-font-size: 13.5; -fx-text-fill: #1a73e8; -fx-underline: true; -fx-padding: 0;" />
+                  <ImageView fitWidth="115.0" fitHeight="115.0" preserveRatio="true" smooth="true" pickOnBounds="true">
+                     <image>
+                        <Image url="@../resources/attribution-qr.png" backgroundLoading="true" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
          <BorderPane.margin>
             <Insets top="10" left="10" />
@@ -30,6 +56,10 @@
       </VBox>
    </left>
    <center>
-      <StackPane fx:id="structureHost" maxHeight="Infinity" maxWidth="Infinity" style="-fx-padding: 0 12 0 0; -fx-border-color: transparent #cccccc transparent transparent; -fx-border-width: 0 1 0 0;" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="structureHost" maxHeight="Infinity" maxWidth="Infinity" style="-fx-padding: 0 24 0 0; -fx-border-color: transparent #cccccc transparent transparent; -fx-border-width: 0 0.5 0 0;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="6" />
+         </BorderPane.margin>
+      </StackPane>
    </center>
 </BorderPane>
