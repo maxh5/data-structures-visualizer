@@ -20,6 +20,7 @@
                   <Button mnemonicParsing="false" onAction="#add" text="Add (Append)" />
                   <Button mnemonicParsing="false" onAction="#insert" text="Insert" />
                   <Button mnemonicParsing="false" onAction="#remove" text="Remove" />
+                  <Button mnemonicParsing="false" onAction="#get" text="Get" />
                   <Button mnemonicParsing="false" onAction="#search" text="Search" />
                   <Button mnemonicParsing="false" onAction="#clear" text="Clear" />
                </children>

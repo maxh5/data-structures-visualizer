@@ -1,5 +1,6 @@
 package dsv.map;
 
+import dsv.PrimaryInputFocus;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -21,6 +26,13 @@ public class MapController {
 
     private static final int BUCKET_COUNT = 8;
     private static final double ANIMATION_SPEED = 0.6; // seconds
+    private static final CornerRadii INDEX_HIGHLIGHT_RADII = new CornerRadii(6);
+    private static final Background INDEX_HIGHLIGHT_BACKGROUND = new Background(
+            new BackgroundFill(Color.rgb(100, 149, 237, 0.22), INDEX_HIGHLIGHT_RADII, Insets.EMPTY)
+    );
+    private static final Border INDEX_HIGHLIGHT_BORDER = new Border(
+            new BorderStroke(Color.CORNFLOWERBLUE, BorderStrokeStyle.SOLID, INDEX_HIGHLIGHT_RADII, new BorderWidths(2))
+    );
 
     private final List<List<Entry>> table = new ArrayList<>();
     private Rectangle highlightedRectangle;
@@ -63,6 +75,7 @@ public class MapController {
         for (int i = 0; i < BUCKET_COUNT; i++) {
             table.add(new ArrayList<>());
         }
+        PrimaryInputFocus.focusAndSelect(keyField);
     }
 
     private int getIndex(String key) {
@@ -102,34 +115,42 @@ public class MapController {
     }
     private void unlockUI() {
         if (controlBox != null) controlBox.setDisable(false);
+        PrimaryInputFocus.focusAndSelect(keyField);
     }
 
     private void highlightIndexPane(int index, SequentialTransition seq) {
         StackPane pane = getIndexPane(index);
         
         PauseTransition highlight = new PauseTransition(Duration.seconds(ANIMATION_SPEED));
-        highlight.setOnFinished(e -> pane.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY))));
+        highlight.setOnFinished(e -> {
+            pane.setBackground(INDEX_HIGHLIGHT_BACKGROUND);
+            pane.setBorder(INDEX_HIGHLIGHT_BORDER);
+        });
         
         PauseTransition pause = new PauseTransition(Duration.seconds(ANIMATION_SPEED));
         
         PauseTransition removeHighlight = new PauseTransition(Duration.seconds(0.1));
-        removeHighlight.setOnFinished(e -> pane.setBackground(null));
+        removeHighlight.setOnFinished(e -> {
+            pane.setBackground(null);
+            pane.setBorder(null);
+        });
 
         seq.getChildren().addAll(highlight, pause, removeHighlight);
     }
 
     @FXML
     void add(ActionEvent event) {
-        String key = keyField.getText();
-        String value = valueField.getText();
+        try {
+            String key = keyField.getText();
+            String value = valueField.getText();
 
-        if (key.isEmpty() || value.isEmpty()) {
-            valueLabel.setText("Enter key and value.");
-            return;
-        }
+            if (key.isEmpty() || value.isEmpty()) {
+                valueLabel.setText("Enter key and value.");
+                return;
+            }
 
-        resetHighlight();
-        lockUI();
+            resetHighlight();
+            lockUI();
         
         int index = getIndex(key);
         List<Entry> bucket = table.get(index);
@@ -200,21 +221,25 @@ public class MapController {
             });
             ft.play();
         });
-        seq.getChildren().add(addNode);
+            seq.getChildren().add(addNode);
 
-        seq.play();
+            seq.play();
+        } finally {
+            PrimaryInputFocus.focusAndSelect(keyField);
+        }
     }
 
     @FXML
     void remove(ActionEvent event) {
-        String key = keyField.getText();
-        if (key.isEmpty()) {
-            valueLabel.setText("Enter key to remove.");
-            return;
-        }
+        try {
+            String key = keyField.getText();
+            if (key.isEmpty()) {
+                valueLabel.setText("Enter key to remove.");
+                return;
+            }
 
-        resetHighlight();
-        lockUI();
+            resetHighlight();
+            lockUI();
 
         int index = getIndex(key);
         List<Entry> bucket = table.get(index);
@@ -273,21 +298,25 @@ public class MapController {
             valueLabel.setText("Key not found.");
             unlockUI();
         });
-        seq.getChildren().add(notFound);
+            seq.getChildren().add(notFound);
 
-        seq.play();
+            seq.play();
+        } finally {
+            PrimaryInputFocus.focusAndSelect(keyField);
+        }
     }
 
     @FXML
     void search(ActionEvent event) {
-        String key = keyField.getText();
-        if (key.isEmpty()) {
-            valueLabel.setText("Enter key to search.");
-            return;
-        }
+        try {
+            String key = keyField.getText();
+            if (key.isEmpty()) {
+                valueLabel.setText("Enter key to search.");
+                return;
+            }
 
-        resetHighlight();
-        lockUI();
+            resetHighlight();
+            lockUI();
 
         int index = getIndex(key);
         List<Entry> bucket = table.get(index);
@@ -342,23 +371,30 @@ public class MapController {
             valueLabel.setText("Key not found.");
             unlockUI();
         });
-        seq.getChildren().add(notFound);
+            seq.getChildren().add(notFound);
 
-        seq.play();
+            seq.play();
+        } finally {
+            PrimaryInputFocus.focusAndSelect(keyField);
+        }
     }
 
     @FXML
     void clear(ActionEvent event) {
-        resetHighlight();
-        for (List<Entry> bucket : table) {
-            bucket.clear();
-        }
+        try {
+            resetHighlight();
+            for (List<Entry> bucket : table) {
+                bucket.clear();
+            }
 
-        for (int i = 0; i < BUCKET_COUNT; i++) {
-            HBox uiBucket = getBucketUI(i);
-            uiBucket.getChildren().clear();
+            for (int i = 0; i < BUCKET_COUNT; i++) {
+                HBox uiBucket = getBucketUI(i);
+                uiBucket.getChildren().clear();
+            }
+            valueLabel.setText("Map cleared.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(keyField);
         }
-        valueLabel.setText("Map cleared.");
     }
 
     private StackPane createNode(Entry e) {

@@ -1,5 +1,6 @@
 package dsv.stack;
 
+import dsv.PrimaryInputFocus;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,76 +29,97 @@ public class StackController {
     private Label valueLabel;
 
     @FXML
+    public void initialize() {
+        PrimaryInputFocus.focusAndSelect(valueField);
+    }
+
+    @FXML
     void clear(ActionEvent event) {
-        resetPeekHighlight();
-        stack.clear();
-        stackContainer.getChildren().clear();
-        valueLabel.setText("Stack cleared.");
+        try {
+            resetPeekHighlight();
+            stack.clear();
+            stackContainer.getChildren().clear();
+            valueLabel.setText("Stack cleared.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
+        }
     }
 
     @FXML
     void peek(ActionEvent event) {
-        resetPeekHighlight();
-        if (stack.isEmpty()) {
-            valueLabel.setText("Stack is empty. Cannot peek.");
-            return;
+        try {
+            resetPeekHighlight();
+            if (stack.isEmpty()) {
+                valueLabel.setText("Stack is empty. Cannot peek.");
+                return;
+            }
+
+            StackPane item = (StackPane) stackContainer.getChildren().get(0);
+            Rectangle rect = (Rectangle) item.getChildren().get(0);
+            rect.setStyle("-fx-fill: yellow; -fx-stroke: black;");
+            peekedRectangle = rect;
+
+            valueLabel.setText("Top of stack: " + stack.peek());
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
-
-        StackPane item = (StackPane) stackContainer.getChildren().get(0);
-        Rectangle rect = (Rectangle) item.getChildren().get(0);
-        rect.setStyle("-fx-fill: yellow; -fx-stroke: black;");
-        peekedRectangle = rect;
-
-        valueLabel.setText("Top of stack: " + stack.peek());
     }
 
     @FXML
     void pop(ActionEvent event) {
-        resetPeekHighlight();
-        if (stack.isEmpty()) {
-            valueLabel.setText("Stack is empty. Cannot pop.");
-            return;
+        try {
+            resetPeekHighlight();
+            if (stack.isEmpty()) {
+                valueLabel.setText("Stack is empty. Cannot pop.");
+                return;
+            }
+
+            int removed = stack.pop();
+            StackPane item = (StackPane) stackContainer.getChildren().get(0);
+
+            // Fade out animation
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(500), item);
+            fadeOut.setFromValue(1);
+            fadeOut.setToValue(0);
+            fadeOut.setOnFinished(e -> stackContainer.getChildren().remove(item));
+            fadeOut.play();
+
+            valueLabel.setText("Value popped: " + removed);
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
-
-        int removed = stack.pop();
-        StackPane item = (StackPane) stackContainer.getChildren().get(0);
-
-        // Fade out animation
-        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), item);
-        fadeOut.setFromValue(1);
-        fadeOut.setToValue(0);
-        fadeOut.setOnFinished(e -> stackContainer.getChildren().remove(item));
-        fadeOut.play();
-
-        valueLabel.setText("Value popped: " + removed);
     }
 
     @FXML
     void push(ActionEvent event) {
-        resetPeekHighlight();
-        String input = valueField.getText().trim();
- 
-        if (input.isEmpty()) {
-            valueLabel.setText("Please enter a value.");
-            return;
-        }
         try {
-            int value = Integer.parseInt(input);
-            stack.push(value);
-            StackPane item = createStackItem(value);
-            item.setOpacity(0);
-            stackContainer.getChildren().addFirst(item);
-            valueField.clear();
+            resetPeekHighlight();
+            String input = valueField.getText().trim();
 
-            // Fade in animation
-            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), item);
-            fadeIn.setFromValue(0);
-            fadeIn.setToValue(1);
-            fadeIn.play();
+            if (input.isEmpty()) {
+                valueLabel.setText("Please enter a value.");
+                return;
+            }
+            try {
+                int value = Integer.parseInt(input);
+                stack.push(value);
+                StackPane item = createStackItem(value);
+                item.setOpacity(0);
+                stackContainer.getChildren().addFirst(item);
+                valueField.clear();
 
-            valueLabel.setText("Value pushed: " + value);
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Please enter an integer.");
+                // Fade in animation
+                FadeTransition fadeIn = new FadeTransition(Duration.millis(500), item);
+                fadeIn.setFromValue(0);
+                fadeIn.setToValue(1);
+                fadeIn.play();
+
+                valueLabel.setText("Value pushed: " + value);
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Please enter an integer.");
+            }
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 

@@ -1,5 +1,6 @@
 package dsv.set;
 
+import dsv.PrimaryInputFocus;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,113 +33,134 @@ public class SetController {
     private Label valueLabel;
 
     @FXML
+    public void initialize() {
+        PrimaryInputFocus.focusAndSelect(valueField);
+    }
+
+    @FXML
     void add(ActionEvent event) {
-        resetHighlight();
-        String input = valueField.getText();
-
         try {
-            int value = Integer.parseInt(input);
+            resetHighlight();
+            String input = valueField.getText();
 
-            if (set.contains(value)) {
-                valueLabel.setText("Value already exists in set.");
-                return;
+            try {
+                int value = Integer.parseInt(input);
+
+                if (set.contains(value)) {
+                    valueLabel.setText("Value already exists in set.");
+                    return;
+                }
+
+                set.add(value);
+
+                StackPane node = createNode(value);
+                node.setOpacity(0);
+
+                // Random placement
+                double x = Math.random() * (setPane.getWidth() - 60);
+                double y = Math.random() * (setPane.getHeight() - 60);
+
+                node.setLayoutX(x);
+                node.setLayoutY(y);
+
+                setPane.getChildren().add(node);
+                nodeMap.put(value, node);
+
+                // Fade in animation
+                FadeTransition fadeIn = new FadeTransition(Duration.millis(500), node);
+                fadeIn.setFromValue(0);
+                fadeIn.setToValue(1);
+                fadeIn.play();
+
+                valueLabel.setText("Added: " + value);
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Invalid input.");
             }
-
-            set.add(value);
-
-            StackPane node = createNode(value);
-            node.setOpacity(0);
-
-            // Random placement
-            double x = Math.random() * (setPane.getWidth() - 60);
-            double y = Math.random() * (setPane.getHeight() - 60);
-
-            node.setLayoutX(x);
-            node.setLayoutY(y);
-
-            setPane.getChildren().add(node);
-            nodeMap.put(value, node);
-
-            // Fade in animation
-            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), node);
-            fadeIn.setFromValue(0);
-            fadeIn.setToValue(1);
-            fadeIn.play();
-
-            valueLabel.setText("Added: " + value);
-
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Invalid input.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void remove(ActionEvent event) {
-        resetHighlight();
-        String input = valueField.getText();
-
         try {
-            int value = Integer.parseInt(input);
+            resetHighlight();
+            String input = valueField.getText();
 
-            if (!set.contains(value)) {
-                valueLabel.setText("Value not found.");
-                return;
+            try {
+                int value = Integer.parseInt(input);
+
+                if (!set.contains(value)) {
+                    valueLabel.setText("Value not found.");
+                    return;
+                }
+
+                set.remove(value);
+
+                StackPane node = nodeMap.get(value);
+                nodeMap.remove(value);
+
+                // Fade out animation
+                FadeTransition fadeOut = new FadeTransition(Duration.millis(500), node);
+                fadeOut.setFromValue(1);
+                fadeOut.setToValue(0);
+                fadeOut.setOnFinished(e -> setPane.getChildren().remove(node));
+                fadeOut.play();
+
+                valueLabel.setText("Removed: " + value);
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Invalid input.");
             }
-
-            set.remove(value);
-
-            StackPane node = nodeMap.get(value);
-            nodeMap.remove(value);
-
-            // Fade out animation
-            FadeTransition fadeOut = new FadeTransition(Duration.millis(500), node);
-            fadeOut.setFromValue(1);
-            fadeOut.setToValue(0);
-            fadeOut.setOnFinished(e -> setPane.getChildren().remove(node));
-            fadeOut.play();
-
-            valueLabel.setText("Removed: " + value);
-
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Invalid input.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void search(ActionEvent event) {
-        resetHighlight();
-        String input = valueField.getText();
-
         try {
-            int value = Integer.parseInt(input);
+            resetHighlight();
+            String input = valueField.getText();
 
-            if (!set.contains(value)) {
-                valueLabel.setText("Value not found.");
-                return;
+            try {
+                int value = Integer.parseInt(input);
+
+                if (!set.contains(value)) {
+                    valueLabel.setText("Value not found.");
+                    return;
+                }
+
+                StackPane node = nodeMap.get(value);
+
+                // Highlight node
+                Circle circle = (Circle) node.getChildren().get(0);
+                circle.setFill(Color.YELLOW);
+                highlightedCircle = circle;
+
+                valueLabel.setText("Found: " + value);
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Invalid input.");
             }
-
-            StackPane node = nodeMap.get(value);
-
-            // Highlight node
-            Circle circle = (Circle) node.getChildren().get(0);
-            circle.setFill(Color.YELLOW);
-            highlightedCircle = circle;
-
-            valueLabel.setText("Found: " + value);
-
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Invalid input.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void clear(ActionEvent event) {
-        resetHighlight();
-        set.clear();
-        nodeMap.clear();
-        setPane.getChildren().clear();
+        try {
+            resetHighlight();
+            set.clear();
+            nodeMap.clear();
+            setPane.getChildren().clear();
 
-        valueLabel.setText("Set cleared.");
+            valueLabel.setText("Set cleared.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
+        }
     }
 
     private StackPane createNode(int value) {

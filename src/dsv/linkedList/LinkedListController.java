@@ -1,6 +1,8 @@
 package dsv.linkedList;
 
+import dsv.PrimaryInputFocus;
 import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
@@ -39,257 +41,354 @@ public class LinkedListController {
         // Start with empty list (just Null pointer)
         linkedListContainer.getChildren().add(createNullNode());
         valueLabel.setText("LinkedList initialized.");
+        PrimaryInputFocus.focusAndSelect(valueField);
     }
 
     @FXML
     void clear(ActionEvent event) {
-        resetHighlight();
-        linkedList.clear();
-        linkedListContainer.getChildren().clear();
-        linkedListContainer.getChildren().add(createNullNode());
-        valueLabel.setText("LinkedList cleared.");
+        try {
+            resetHighlight();
+            linkedList.clear();
+            linkedListContainer.getChildren().clear();
+            linkedListContainer.getChildren().add(createNullNode());
+            valueLabel.setText("LinkedList cleared.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
+        }
     }
 
     @FXML
     void add(ActionEvent event) {
-        resetHighlight();
-        String input = valueField.getText().trim();
-
-        if (input.isEmpty()) {
-            valueLabel.setText("Please enter a value.");
-            return;
-        }
-
         try {
-            int value = Integer.parseInt(input);
-            linkedList.add(value);
+            resetHighlight();
+            String input = valueField.getText().trim();
 
-            // Create new node and arrow
-            StackPane newNode = createNode(value);
-            Text newArrow = createArrow();
+            if (input.isEmpty()) {
+                valueLabel.setText("Please enter a value.");
+                return;
+            }
 
-            // Setup for fade in
-            newNode.setOpacity(0);
-            newArrow.setOpacity(0);
+            try {
+                int value = Integer.parseInt(input);
+                linkedList.add(value);
 
-            // Add to container before the null node
-            int insertIndex = linkedListContainer.getChildren().size() - 1;
-            linkedListContainer.getChildren().add(insertIndex, newNode);
-            linkedListContainer.getChildren().add(insertIndex + 1, newArrow);
+                // Create new node and arrow
+                StackPane newNode = createNode(value);
+                Text newArrow = createArrow();
 
-            // Fade in animation
-            ParallelTransition fade = new ParallelTransition(
-                createFade(newNode, 0, 1),
-                createFade(newArrow, 0, 1)
-            );
-            fade.play();
+                // Setup for fade in
+                newNode.setOpacity(0);
+                newArrow.setOpacity(0);
 
-            valueField.clear();
-            valueLabel.setText("Appended value: " + value);
+                // Add to container before the null node
+                int insertIndex = linkedListContainer.getChildren().size() - 1;
+                linkedListContainer.getChildren().add(insertIndex, newNode);
+                linkedListContainer.getChildren().add(insertIndex + 1, newArrow);
 
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Please enter a valid integer.");
+                // Fade in animation
+                ParallelTransition fade = new ParallelTransition(
+                    createFade(newNode, 0, 1),
+                    createFade(newArrow, 0, 1)
+                );
+                fade.play();
+
+                valueField.clear();
+                valueLabel.setText("Appended value: " + value);
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Please enter a valid integer.");
+            }
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void insert(ActionEvent event) {
-        resetHighlight();
-        String valInput = valueField.getText().trim();
-        String idxInput = indexField.getText().trim();
-
-        if (valInput.isEmpty() || idxInput.isEmpty()) {
-            valueLabel.setText("Please enter value and index.");
-            return;
-        }
-
         try {
-            int value = Integer.parseInt(valInput);
-            int index = Integer.parseInt(idxInput);
+            resetHighlight();
+            String valInput = valueField.getText().trim();
+            String idxInput = indexField.getText().trim();
 
-            if (index < 0 || index > linkedList.size()) {
-                valueLabel.setText("Index out of bounds! Range: 0 to " + linkedList.size());
+            if (valInput.isEmpty() || idxInput.isEmpty()) {
+                valueLabel.setText("Please enter value and index.");
                 return;
             }
 
-            linkedList.add(index, value);
+            try {
+                int value = Integer.parseInt(valInput);
+                int index = Integer.parseInt(idxInput);
 
-            StackPane newNode = createNode(value);
-            Text newArrow = createArrow();
+                if (index < 0 || index > linkedList.size()) {
+                    valueLabel.setText("Index out of bounds! Range: 0 to " + linkedList.size());
+                    return;
+                }
 
-            // Set initial state for "move up" animation
-            newNode.setTranslateY(60);
-            newArrow.setTranslateY(60);
-            newNode.setOpacity(0);
-            newArrow.setOpacity(0);
+                linkedList.add(index, value);
 
-            // Insert into the HBox (each logical node is 2 visual nodes: circle + arrow)
-            int uiIndex = index * 2;
-            linkedListContainer.getChildren().add(uiIndex, newNode);
-            linkedListContainer.getChildren().add(uiIndex + 1, newArrow);
+                StackPane newNode = createNode(value);
+                Text newArrow = createArrow();
 
-            // Shift right animation for elements that were moved
-            ParallelTransition shiftAnim = new ParallelTransition();
-            for (int i = uiIndex + 2; i < linkedListContainer.getChildren().size(); i++) {
-                Node n = linkedListContainer.getChildren().get(i);
-                TranslateTransition tt = new TranslateTransition(Duration.millis(400), n);
-                // Assume node width (40) + arrow width (~20) + spacing (10s)
-                // HBox naturally shifts them, so we start them negatively offset
-                // Wait, if we just added them, HBox instantly shifts the right elements.
-                // We should offset them to the left by the width of (node+arrow+spacing) and slide to 0.
-                n.setTranslateX(-80); 
-                tt.setToX(0);
-                shiftAnim.getChildren().add(tt);
+                // Set initial state for "move up" animation
+                newNode.setTranslateY(60);
+                newArrow.setTranslateY(60);
+                newNode.setOpacity(0);
+                newArrow.setOpacity(0);
+
+                // Insert into the HBox (each logical node is 2 visual nodes: circle + arrow)
+                int uiIndex = index * 2;
+                linkedListContainer.getChildren().add(uiIndex, newNode);
+                linkedListContainer.getChildren().add(uiIndex + 1, newArrow);
+
+                // Shift right animation for elements that were moved
+                ParallelTransition shiftAnim = new ParallelTransition();
+                for (int i = uiIndex + 2; i < linkedListContainer.getChildren().size(); i++) {
+                    Node n = linkedListContainer.getChildren().get(i);
+                    TranslateTransition tt = new TranslateTransition(Duration.millis(400), n);
+                    // Assume node width (40) + arrow width (~20) + spacing (10s)
+                    // HBox naturally shifts them, so we start them negatively offset
+                    // Wait, if we just added them, HBox instantly shifts the right elements.
+                    // We should offset them to the left by the width of (node+arrow+spacing) and slide to 0.
+                    n.setTranslateX(-80);
+                    tt.setToX(0);
+                    shiftAnim.getChildren().add(tt);
+                }
+
+                // Move up and fade in animation for new elements
+                ParallelTransition appearAnim = new ParallelTransition();
+
+                TranslateTransition moveUpNode = new TranslateTransition(Duration.millis(400), newNode);
+                moveUpNode.setToY(0);
+                TranslateTransition moveUpArrow = new TranslateTransition(Duration.millis(400), newArrow);
+                moveUpArrow.setToY(0);
+
+                appearAnim.getChildren().addAll(
+                    moveUpNode, moveUpArrow,
+                    createFade(newNode, 0, 1), createFade(newArrow, 0, 1)
+                );
+
+                // Play shift, then appear
+                SequentialTransition seq = new SequentialTransition();
+                if (!shiftAnim.getChildren().isEmpty()) {
+                    seq.getChildren().add(shiftAnim);
+                }
+                seq.getChildren().add(appearAnim);
+                seq.play();
+
+                valueField.clear();
+                indexField.clear();
+                valueLabel.setText("Inserted value " + value + " at index " + index);
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Please enter valid integers.");
             }
-
-            // Move up and fade in animation for new elements
-            ParallelTransition appearAnim = new ParallelTransition();
-            
-            TranslateTransition moveUpNode = new TranslateTransition(Duration.millis(400), newNode);
-            moveUpNode.setToY(0);
-            TranslateTransition moveUpArrow = new TranslateTransition(Duration.millis(400), newArrow);
-            moveUpArrow.setToY(0);
-
-            appearAnim.getChildren().addAll(
-                moveUpNode, moveUpArrow,
-                createFade(newNode, 0, 1), createFade(newArrow, 0, 1)
-            );
-
-            // Play shift, then appear
-            SequentialTransition seq = new SequentialTransition();
-            if (!shiftAnim.getChildren().isEmpty()) {
-                seq.getChildren().add(shiftAnim);
-            }
-            seq.getChildren().add(appearAnim);
-            seq.play();
-
-            valueField.clear();
-            indexField.clear();
-            valueLabel.setText("Inserted value " + value + " at index " + index);
-
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Please enter valid integers.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void remove(ActionEvent event) {
-        resetHighlight();
-        String idxInput = indexField.getText().trim();
-
-        if (idxInput.isEmpty()) {
-            valueLabel.setText("Please enter an index to remove.");
-            return;
-        }
-
         try {
-            int index = Integer.parseInt(idxInput);
+            resetHighlight();
+            String idxInput = indexField.getText().trim();
 
-            if (index < 0 || index >= linkedList.size()) {
-                valueLabel.setText("Index out of bounds! Range: 0 to " + (linkedList.size() - 1));
+            if (idxInput.isEmpty()) {
+                valueLabel.setText("Please enter an index to remove.");
                 return;
             }
 
-            int removedValue = linkedList.remove(index);
-            int uiIndex = index * 2;
+            try {
+                int index = Integer.parseInt(idxInput);
 
-            Node nodeToRemove = linkedListContainer.getChildren().get(uiIndex);
-            Node arrowToRemove = linkedListContainer.getChildren().get(uiIndex + 1);
-
-            // Drop down and fade out
-            TranslateTransition dropNode = new TranslateTransition(Duration.millis(400), nodeToRemove);
-            dropNode.setToY(60);
-            TranslateTransition dropArrow = new TranslateTransition(Duration.millis(400), arrowToRemove);
-            dropArrow.setToY(60);
-
-            ParallelTransition disappearAnim = new ParallelTransition(
-                dropNode, dropArrow,
-                createFade(nodeToRemove, 1, 0), createFade(arrowToRemove, 1, 0)
-            );
-
-            disappearAnim.setOnFinished(e -> {
-                linkedListContainer.getChildren().removeAll(nodeToRemove, arrowToRemove);
-
-                // HBox naturally shifts remaining elements left, let's offset and animate
-                ParallelTransition slideLeft = new ParallelTransition();
-                for (int i = uiIndex; i < linkedListContainer.getChildren().size(); i++) {
-                    Node n = linkedListContainer.getChildren().get(i);
-                    n.setTranslateX(80);
-                    TranslateTransition tt = new TranslateTransition(Duration.millis(400), n);
-                    tt.setToX(0);
-                    slideLeft.getChildren().add(tt);
+                if (index < 0 || index >= linkedList.size()) {
+                    valueLabel.setText("Index out of bounds! Range: 0 to " + (linkedList.size() - 1));
+                    return;
                 }
-                
-                if (!slideLeft.getChildren().isEmpty()) {
-                    slideLeft.play();
+
+                int removedValue = linkedList.remove(index);
+                int uiIndex = index * 2;
+
+                Node nodeToRemove = linkedListContainer.getChildren().get(uiIndex);
+                Node arrowToRemove = linkedListContainer.getChildren().get(uiIndex + 1);
+
+                // Drop down and fade out
+                TranslateTransition dropNode = new TranslateTransition(Duration.millis(400), nodeToRemove);
+                dropNode.setToY(60);
+                TranslateTransition dropArrow = new TranslateTransition(Duration.millis(400), arrowToRemove);
+                dropArrow.setToY(60);
+
+                ParallelTransition disappearAnim = new ParallelTransition(
+                    dropNode, dropArrow,
+                    createFade(nodeToRemove, 1, 0), createFade(arrowToRemove, 1, 0)
+                );
+
+                disappearAnim.setOnFinished(e -> {
+                    linkedListContainer.getChildren().removeAll(nodeToRemove, arrowToRemove);
+
+                    // HBox naturally shifts remaining elements left, let's offset and animate
+                    ParallelTransition slideLeft = new ParallelTransition();
+                    for (int i = uiIndex; i < linkedListContainer.getChildren().size(); i++) {
+                        Node n = linkedListContainer.getChildren().get(i);
+                        n.setTranslateX(80);
+                        TranslateTransition tt = new TranslateTransition(Duration.millis(400), n);
+                        tt.setToX(0);
+                        slideLeft.getChildren().add(tt);
+                    }
+
+                    if (!slideLeft.getChildren().isEmpty()) {
+                        slideLeft.play();
+                    }
+                });
+
+                disappearAnim.play();
+
+                indexField.clear();
+                valueLabel.setText("Removed value " + removedValue + " from index " + index);
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Please enter a valid integer for index.");
+            }
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
+        }
+    }
+
+    @FXML
+    void get(ActionEvent event) {
+        try {
+            resetHighlight();
+            String idxInput = indexField.getText().trim();
+
+            if (idxInput.isEmpty()) {
+                valueLabel.setText("Please enter an index to get.");
+                return;
+            }
+
+            try {
+                int targetIndex = Integer.parseInt(idxInput);
+
+                if (targetIndex < 0 || targetIndex >= linkedList.size()) {
+                    valueLabel.setText("Index out of bounds! Range: 0 to " + (linkedList.size() - 1));
+                    return;
                 }
-            });
 
-            disappearAnim.play();
+                SequentialTransition traversal = new SequentialTransition();
 
-            indexField.clear();
-            valueLabel.setText("Removed value " + removedValue + " from index " + index);
+                for (int i = 0; i <= targetIndex; i++) {
+                    int uiIndex = i * 2;
+                    StackPane node = (StackPane) linkedListContainer.getChildren().get(uiIndex);
+                    Circle circle = (Circle) node.getChildren().get(0);
 
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Please enter a valid integer for index.");
+                    // Highlight node
+                    FadeTransition flash = new FadeTransition(Duration.millis(300), circle);
+                    flash.setFromValue(1.0);
+                    flash.setToValue(0.4);
+                    flash.setCycleCount(2);
+                    flash.setAutoReverse(true);
+
+                    final int currentIndex = i;
+                    flash.setOnFinished(e -> {
+                        if (currentIndex == targetIndex) {
+                            circle.setStyle("-fx-fill: yellow; -fx-stroke: black; -fx-stroke-width: 2;");
+                            highlightedCircle = circle;
+                            valueLabel.setText("Found value " + linkedList.get(targetIndex) + " at index " + targetIndex);
+                        }
+                    });
+
+                    traversal.getChildren().add(flash);
+
+                    // Highlight arrow (just pause for pacing)
+                    if (i < targetIndex) {
+                        PauseTransition pause = new PauseTransition(Duration.millis(300));
+                        traversal.getChildren().add(pause);
+                    }
+                }
+
+                valueLabel.setText("Getting value at index " + targetIndex + "...");
+                traversal.play();
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Please enter a valid integer for index.");
+            }
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void search(ActionEvent event) {
-        resetHighlight();
-        String idxInput = indexField.getText().trim();
-
-        if (idxInput.isEmpty()) {
-            valueLabel.setText("Please enter an index to search for.");
-            return;
-        }
-
         try {
-            int targetIndex = Integer.parseInt(idxInput);
+            resetHighlight();
+            String valInput = valueField.getText().trim();
 
-            if (targetIndex < 0 || targetIndex >= linkedList.size()) {
-                valueLabel.setText("Index out of bounds! Range: 0 to " + (linkedList.size() - 1));
+            if (valInput.isEmpty()) {
+                valueLabel.setText("Please enter a value to search for.");
                 return;
             }
 
-            SequentialTransition traversal = new SequentialTransition();
-            
-            for (int i = 0; i <= targetIndex; i++) {
-                int uiIndex = i * 2;
-                StackPane node = (StackPane) linkedListContainer.getChildren().get(uiIndex);
-                Circle circle = (Circle) node.getChildren().get(0);
-                
-                // Highlight node
-                FadeTransition flash = new FadeTransition(Duration.millis(300), circle);
-                flash.setFromValue(1.0);
-                flash.setToValue(0.4);
-                flash.setCycleCount(2);
-                flash.setAutoReverse(true);
-                
-                final int currentIndex = i;
-                flash.setOnFinished(e -> {
-                    if (currentIndex == targetIndex) {
-                        circle.setStyle("-fx-fill: yellow; -fx-stroke: black; -fx-stroke-width: 2;");
-                        highlightedCircle = circle;
-                        valueLabel.setText("Found value " + linkedList.get(targetIndex) + " at index " + targetIndex);
-                    }
-                });
-                
-                traversal.getChildren().add(flash);
-                
-                // Highlight arrow (just pause for pacing)
-                if (i < targetIndex) {
-                    javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(Duration.millis(300));
-                    traversal.getChildren().add(pause);
+            try {
+                int targetValue = Integer.parseInt(valInput);
+
+                if (linkedList.isEmpty()) {
+                    valueLabel.setText("LinkedList is empty.");
+                    return;
                 }
+
+                int foundIndex = -1;
+                for (int i = 0; i < linkedList.size(); i++) {
+                    if (linkedList.get(i) == targetValue) {
+                        foundIndex = i;
+                        break;
+                    }
+                }
+
+                int traversalEnd = (foundIndex >= 0) ? foundIndex : linkedList.size() - 1;
+                SequentialTransition traversal = new SequentialTransition();
+
+                for (int i = 0; i <= traversalEnd; i++) {
+                    int uiIndex = i * 2;
+                    StackPane node = (StackPane) linkedListContainer.getChildren().get(uiIndex);
+                    Circle circle = (Circle) node.getChildren().get(0);
+
+                    FadeTransition flash = new FadeTransition(Duration.millis(300), circle);
+                    flash.setFromValue(1.0);
+                    flash.setToValue(0.4);
+                    flash.setCycleCount(2);
+                    flash.setAutoReverse(true);
+
+                    final int currentIndex = i;
+                    final int matchIndex = foundIndex;
+                    flash.setOnFinished(e -> {
+                        if (currentIndex == matchIndex) {
+                            circle.setStyle("-fx-fill: yellow; -fx-stroke: black; -fx-stroke-width: 2;");
+                            highlightedCircle = circle;
+                            valueLabel.setText("Found value " + targetValue + " at index " + matchIndex);
+                        }
+                    });
+
+                    traversal.getChildren().add(flash);
+
+                    if (i < traversalEnd) {
+                        PauseTransition pause = new PauseTransition(Duration.millis(300));
+                        traversal.getChildren().add(pause);
+                    }
+                }
+
+                if (foundIndex < 0) {
+                    PauseTransition notFound = new PauseTransition(Duration.millis(50));
+                    notFound.setOnFinished(e -> valueLabel.setText("Value " + targetValue + " not found."));
+                    traversal.getChildren().add(notFound);
+                }
+
+                valueLabel.setText("Searching for value " + targetValue + "...");
+                traversal.play();
+
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Please enter a valid integer for value.");
             }
-            
-            valueLabel.setText("Searching for index " + targetIndex + "...");
-            traversal.play();
-            
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Please enter a valid integer for index.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 

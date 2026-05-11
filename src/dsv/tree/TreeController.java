@@ -1,5 +1,6 @@
 package dsv.tree;
 
+import dsv.PrimaryInputFocus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -36,66 +37,87 @@ public class TreeController {
     private Label valueLabel;
 
     @FXML
+    public void initialize() {
+        PrimaryInputFocus.focusAndSelect(valueField);
+    }
+
+    @FXML
     void clear(ActionEvent event) {
-        resetHighlight();
-        root = null;
-        treePane.getChildren().clear();
-        valueLabel.setText("Tree cleared.");
+        try {
+            resetHighlight();
+            root = null;
+            treePane.getChildren().clear();
+            valueLabel.setText("Tree cleared.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
+        }
     }
 
     @FXML
     void delete(ActionEvent event) {
-        resetHighlight();
         try {
-            int value = Integer.parseInt(valueField.getText());
-            root = delete(root, value);
-            valueLabel.setText("Deleted: " + value);
-            redrawTree();
-            valueField.clear();
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Enter a valid integer.");
+            resetHighlight();
+            try {
+                int value = Integer.parseInt(valueField.getText());
+                root = delete(root, value);
+                valueLabel.setText("Deleted: " + value);
+                redrawTree();
+                valueField.clear();
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Enter a valid integer.");
+            }
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void insert(ActionEvent event) {
-        resetHighlight();
         try {
-            int val = Integer.parseInt(valueField.getText());
-            root = insert(root, val);
-            valueLabel.setText("Inserted: " + val);
-            redrawTree();
-            valueField.clear();
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Enter a valid integer.");
+            resetHighlight();
+            try {
+                int val = Integer.parseInt(valueField.getText());
+                root = insert(root, val);
+                valueLabel.setText("Inserted: " + val);
+                redrawTree();
+                valueField.clear();
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Enter a valid integer.");
+            }
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
     @FXML
     void search(ActionEvent event) {
-        resetHighlight();
         try {
-            int val = Integer.parseInt(valueField.getText());
-            if (find(root, val)) {
-                valueLabel.setText("Found: " + val);
-                
-                for (javafx.scene.Node n : treePane.getChildren()) {
-                    if (n instanceof StackPane) {
-                        StackPane sp = (StackPane) n;
-                        Text text = (Text) sp.getChildren().get(1);
-                        if (text.getText().equals(String.valueOf(val))) {
-                            Circle circle = (Circle) sp.getChildren().get(0);
-                            circle.setStyle("-fx-fill: yellow; -fx-stroke: black;");
-                            highlightedCircle = circle;
-                            break;
+            resetHighlight();
+            try {
+                int val = Integer.parseInt(valueField.getText());
+                if (find(root, val)) {
+                    valueLabel.setText("Found: " + val);
+
+                    for (javafx.scene.Node n : treePane.getChildren()) {
+                        if (n instanceof StackPane) {
+                            StackPane sp = (StackPane) n;
+                            Text text = (Text) sp.getChildren().get(1);
+                            if (text.getText().equals(String.valueOf(val))) {
+                                Circle circle = (Circle) sp.getChildren().get(0);
+                                circle.setStyle("-fx-fill: yellow; -fx-stroke: black;");
+                                highlightedCircle = circle;
+                                break;
+                            }
                         }
                     }
+                } else {
+                    valueLabel.setText("Value not found.");
                 }
-            } else {
-                valueLabel.setText("Value not found.");
+            } catch (NumberFormatException e) {
+                valueLabel.setText("Enter a valid integer.");
             }
-        } catch (NumberFormatException e) {
-            valueLabel.setText("Enter a valid integer.");
+        } finally {
+            PrimaryInputFocus.focusAndSelect(valueField);
         }
     }
 
