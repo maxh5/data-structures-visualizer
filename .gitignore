@@ -1,0 +1,13 @@
+# Build outputs from package.bat
+build/
+dist/
+
+# Cached toolchain downloads (e.g. JavaFX jmods)
+tools/
+
+# VS Code Java compile output
+bin/
+
+# OS junk
+Thumbs.db
+.DS_Store

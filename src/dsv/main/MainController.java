@@ -32,7 +32,7 @@ public class MainController
     public void showStack(ActionEvent event) {
         try {
             Parent stackView = FXMLLoader.load(
-                    getClass().getResource("../stack/stack-view.fxml")
+                    getClass().getResource("/dsv/stack/stack-view.fxml")
             );
 
             showInCenter(stackView);
@@ -45,7 +45,7 @@ public class MainController
     public void showQueue(ActionEvent event) {
         try {
             Parent queueView = FXMLLoader.load(
-                    getClass().getResource("../queue/queue-view.fxml")
+                    getClass().getResource("/dsv/queue/queue-view.fxml")
             );
 
             showInCenter(queueView);
@@ -58,7 +58,7 @@ public class MainController
     public void showTree(ActionEvent event) {
         try {
             Parent treeView = FXMLLoader.load(
-                    getClass().getResource("../tree/tree-view.fxml")
+                    getClass().getResource("/dsv/tree/tree-view.fxml")
             );
 
             showInCenter(treeView);
@@ -71,7 +71,7 @@ public class MainController
     public void showSet(ActionEvent event) {
         try {
             Parent setView = FXMLLoader.load(
-                    getClass().getResource("../set/set-view.fxml")
+                    getClass().getResource("/dsv/set/set-view.fxml")
             );
 
             showInCenter(setView);
@@ -84,7 +84,7 @@ public class MainController
     public void showArrayList(ActionEvent event) {
         try {
             Parent arrayListView = FXMLLoader.load(
-                    getClass().getResource("../arrayList/arrayList-view.fxml")
+                    getClass().getResource("/dsv/arrayList/arrayList-view.fxml")
             );
 
             showInCenter(arrayListView);
@@ -97,7 +97,7 @@ public class MainController
     public void showLinkedList(ActionEvent event) {
         try {
             Parent linkedListView = FXMLLoader.load(
-                    getClass().getResource("../linkedList/linkedList-view.fxml")
+                    getClass().getResource("/dsv/linkedList/linkedList-view.fxml")
             );
 
             showInCenter(linkedListView);
@@ -110,7 +110,7 @@ public class MainController
     public void showMap(ActionEvent event) {
         try {
             Parent mapView = FXMLLoader.load(
-                    getClass().getResource("../map/map-view.fxml")
+                    getClass().getResource("/dsv/map/map-view.fxml")
             );
 
             showInCenter(mapView);
